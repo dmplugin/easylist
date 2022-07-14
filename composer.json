@@ -1,0 +1,13 @@
+{
+    "name": "easylist/easylist",
+    "description": "For dynamic listing",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Easylist\\": "src"
+        },
+        "classmap": ["src/"]
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
