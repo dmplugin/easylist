@@ -45,12 +45,13 @@ vendor/easylist2/config/EasyListConfig.php
 needs to be configured.
 
 Copy this file to any desired location in the project 
-The line number 19 of this file contains the following code
+The line number 20 of this file contains the following code
 ```sh
-19 $configPath = 'app/config/EasyListConfig.php';
+20 $configPath = 'app/config/EasyListConfig.php';
 ```
 Change the path mentioned there to the path of the configuration file of the project. For Laravel projects this would be the path of the .env file.
 
+In the vendor/easylist2/config/EasyListConfig.php file change the path mentioned in the 20th line to the path of the path where EasyListConfig.php has been moved.
 ### Usage
 There are three function for listing,pagination and rendering filtered result to the DOM.
 - Page
@@ -88,7 +89,7 @@ There are some parameters that need to be given in the array. The params are men
 |view_variables|Array variables that has to be passed to the view|
 |page|page number|
 |pagination|Used to mention whether pagination is present or not. Options : ***YES / NO***|
-|page_size|Number of records that has to be shown in each page|
+|page_sizes|Number of records that has to be shown in each page|
 
 These are the options for filter
  
@@ -288,7 +289,7 @@ Listing::Page(array(
 ```
 ``Default value for pagination is YES``
 
-**page_size**
+**page_sizes**
 ```sh
 Listing::Page(array(
     "select"         => "id,name",
@@ -296,7 +297,7 @@ Listing::Page(array(
     "return_data"    => "JSON",
     "page"           => 1,
     "pagination"     => "YES"
-    "page_size"      => 25
+    "page_sizes"      => 25
 ));
 ```
 
@@ -307,6 +308,8 @@ List function is used in the view page. This function directs the control to the
 Listing::List(array());
 ```
 
+The list function will help to create a table like shown below.
+![List Image](https://i.imgur.com/xINObPo.png)
 There parameters for list function is mentioned below
 | Param | Description |
 | ------ | ------ |
@@ -319,9 +322,11 @@ There parameters for list function is mentioned below
 |data|Provides data returned by the page function here. This is for post back rendering|
 |return_data|This is to specify the data type of page function. Options are : ***HTML / JSON / OBJECT***|             
 |pager|Location where we want to show the page controller. Options : ***TOP/BOTTOM/BOTH***|
-|page_size|ProvideS the array option for pagination. The Default is ***array(10,25,50,100,250)***|             
+|page_sizes|ProvideS the array option for pagination. The Default is ***array(10,25,50,100,250)***|             
 |action|To point out the action columns where edit,delete and show links should be shown. Here developer can use ***{<Table_column_name>}*** to add values in the script/html|
 
+Table with sortable headers is shown in the screenshot below.
+![List with sortable header Image](https://i.imgur.com/WUvGPrZ.png)
 Options of column 
 
 | Option | Description |
@@ -430,10 +435,13 @@ Listing::Pager();
 |form_id|The form id should be given in this param|
 |page_sizes|The array of values for the different page sizes for listing.|
 
+Pager function will show a pagination widget along with the listing. The widget is as shown in the screenshot below.
+![Pagination Image](https://i.imgur.com/uzkgbYy.png)
 ##### Examples
 **pager**
 ```sh
 Listing::Pager(array(
                 "page" => $result, 
                 "form_id" => "postbackform", 
-                "page_size" => array(10,25,50,100,250)));
+                "page_sizes" => array(10,25,50,100,250)));
+

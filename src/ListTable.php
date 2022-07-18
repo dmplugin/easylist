@@ -108,6 +108,7 @@ class ListTable
                             var input = document.createElement('input');
                             input.setAttribute('type', 'hidden');
                             input.setAttribute('name', name);
+                            input.setAttribute('id', name);
                             input.setAttribute('value', value);
                             //append to form element that you want .
                             document.getElementById(form).appendChild(input);
@@ -129,7 +130,26 @@ class ListTable
                         updateHiddenAttribute{$random}('page', '{$page}', form_id);
                         document.getElementById(form_id).submit();
                     }";
-                    $html .= "</script>";
+
+            $html .= "window.onload = function pageLoad() {
+                        form_id = '{$formid}';
+                        var sortfield = document.getElementById('sort').value;
+                        var sortType = document.getElementById('sort_type').value;
+                        element = document.querySelector('[data-sort=\"'+sortfield+'\"]');
+                        element.setAttribute('data-sort_type', sortType);
+                        if(sortType == 'asc'){
+                            class_name = 'sort-by-asc';
+                            title = 'Ascending';
+                        }else if(sortType == 'desc'){
+                            class_name = 'sort-by-desc';
+                            title = 'Descending';
+                        }
+                        item = element.querySelector('i');
+                        item.setAttribute('class', class_name);
+                        item.setAttribute('title', title);
+                    }";                    
+            $html .= "</script>";
+
         return $html;
     }
     
@@ -227,7 +247,67 @@ class ListTable
             return $tableHtml;
         }
         //$header = $data['column'];
-        
-        
     }
+
+    public function getTableHead($header, $column, $class, $random, $formid){
+        $html = '';
+        try{
+            $html = "<th class='{$class}'>
+                <a href='javascript:void(0)' class='sortClass {$column}' onclick='applySort{$random}(this)' data-sort='{$column}' data-sort_type='' title='Sort'>{$header}
+                <i class='' title=''></i>
+                </a>
+            </th>
+            <script>
+            function applySort{$random}(currentelement){
+                form_id = '{$formid}';
+                var sortfield = currentelement.dataset.sort;
+                var sortType = currentelement.dataset.sort_type;
+                if(sortType == ''){
+                    sortType = 'asc';
+                    class_name = 'sort-by-asc';
+                    title = 'Ascending';
+                }else if(sortType == 'asc'){
+                    sortType = 'desc';
+                    class_name = 'sort-by-desc';
+                    title = 'Descending';
+                }else{
+                    sortType = 'asc';
+                    class_name = 'sort-by-asc';
+                    title = 'Ascending';
+                }
+                element = currentelement.querySelector('i');
+                element.setAttribute('class', class_name);
+                element.setAttribute('title', title);
+                page = document.getElementById('page').value;
+                pageSize = document.getElementById('page_size').value;
+                currentelement.setAttribute('data-sort_type', sortType);
+                updateHiddenAttribute{$random}('sort', sortfield, form_id);
+                updateHiddenAttribute{$random}('sort_type', sortType, form_id);
+                updateHiddenAttribute{$random}('page_size', pageSize, form_id);
+                updateHiddenAttribute{$random}('page', page, form_id);
+                document.getElementById(form_id).submit();
+            }
+            function updateHiddenAttribute{$random}(name, value, form){
+                form_id = '{$formid}';
+                if(document.getElementById(form).elements[name]){
+                    document.getElementById(form_id).elements[name].value = value;
+                }else{
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'hidden');
+                    input.setAttribute('name', name);
+                    input.setAttribute('id', name);
+                    input.setAttribute('value', value);
+                    document.getElementById(form).appendChild(input);
+                }
+            }
+            </script>";
+            return $html;
+        }
+        catch(Throwable $e){
+            // Exception
+            return $html;
+        }
+    }
+
+
 }

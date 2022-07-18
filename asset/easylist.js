@@ -320,15 +320,34 @@ function applySortClass(){
 }
 });//end of document ready
 
-function getFormattedDate(date_string, converting_format = "dd/mm/yy", current_format = "yy-mm-dd"){
-	current_format = current_format.replace(/\//g, "-");
-	date_string = date_string.replace(/\//g, "-");
+function getFormattedDate(date_string, converting_format = "dd/mm/yy h:i:s A", current_format = "yy-mm-dd h:i:s A"){
+	current_format = current_format.replace(/\/|:| /g, "-");
+	date_string = date_string.replace(/\/|:| /g, "-");
 	var dt_split = date_string.split('-');
 	dt_arr = current_format.split('-');
 	var dt_date = parseInt(dt_split[dt_arr.indexOf('dd')]);
 	var dt_month = parseInt(dt_split[dt_arr.indexOf('mm')]);
 	var dt_year = parseInt(dt_split[dt_arr.indexOf('yy')]);
+	var hours   = (dt_split.length > 3) ? parseInt(dt_split[dt_arr.indexOf('h')]): 0;
+	var minutes = (dt_split.length > 4) ? parseInt(dt_split[dt_arr.indexOf('i')]): 0;
+	var seconds = (dt_split.length > 5) ? parseInt(dt_split[dt_arr.indexOf('s')]): 0;
+	
+	
+	
+	
+	var ampm = "";
+	if(hours != 0){
+		ampm = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+	}	
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	//var strTime = hours + ':' + minutes +':' + seconds + ' ' + ampm;
 	return converting_format.replace("yy", dt_year)
 							.replace("mm", (dt_month.toString().length == 1? "0": "") + dt_month)
-							.replace("dd", (dt_date.toString().length == 1? "0": "") + dt_date);
+							.replace("dd", (dt_date.toString().length == 1? "0": "") + dt_date)
+							.replace("h", (hours.toString().length == 1? "0": "") + hours)
+							.replace("i", (minutes.toString().length == 1? "0": "") + minutes)
+							.replace("s", (seconds.toString().length == 1? "0": "") + seconds)
+							.replace("A", (ampm.toString().length == 1? "0": "") + ampm);
 }

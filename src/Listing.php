@@ -70,7 +70,7 @@ class Listing
         $methodArray        = (!empty($_POST)) ? $_POST : $_GET;
         
         $return_data        = isset($options["return_data"]) ? $options["return_data"] : "JSON";
-        $page_size          = isset($methodArray['page_size']) ? $methodArray['page_size'] : (isset($options["page_size"]) ? $options["page_size"] : 25);
+        $page_size          = isset($methodArray['page_size']) ? $methodArray['page_size'] : (!empty($options["page_size"]) && $options["page_size"] != 0  ? $options["page_size"] : 25);
         $page               = isset($methodArray['page']) ? $methodArray['page'] : (isset($options["page"]) ? $options["page"] : 1);
         $total_records      = isset($methodArray['total_records']) ? $methodArray['total_records'] : (isset($options["total_records"]) ? $options["page"] : 0);
         $pagination         = isset($options["pagination"]) ? $options["pagination"] : 'YES';
@@ -506,6 +506,18 @@ class Listing
             
             echo $pager;
             echo $scripts;
+        }
+    }
+
+    public static function sortHead($header, $column, $class, $formid){
+        try{
+            $random  = rand (10000, 99999);
+            $column = Listing::Encode($column);
+            $table   = new ListTable();
+            echo $table->getTableHead($header, $column, $class, $random, $formid);
+        }
+        catch(Throwable $e){
+            throw new EasyListException("Header exception");
         }
     }
     

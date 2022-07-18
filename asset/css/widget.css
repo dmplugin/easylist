@@ -15,9 +15,12 @@
     position: relative !important;
     width: 100%;
     text-align: center;
-    display: block;
+    display: flex;
     float: left;
     margin-bottom: 10px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
   }
   
   .custom-pagination form {
@@ -157,23 +160,15 @@ section {
   overflow: visible;
   vertical-align: top;
   font-style: normal;
-  height: 1em;
+  height: 14px;
   width: 1em;
+  margin-top: 2px;
+  margin-bottom: 2px;
   mix-blend-mode: multiply;
   cursor: pointer;
 }
 
-.ic:before, .ic:after {
-
-  background-color: #fff;
-  border-color: #fff;
-  color: #fff;
-  content: '';
-  position: absolute;
-  display: block;
-  box-sizing: border-box;
-  
-}
+.ic:before, .ic:after {background-color: #fff;border-color: #fff;color: #fff;content: '';position: absolute;display: block;box-sizing: border-box;}
 
 
 .ic.ic-play:before{
@@ -199,22 +194,18 @@ section {
 
 
 .ic.ic-skip{
-  background: linear-gradient(0deg,#fff 0%, #fff 12.5%, transparent 12.5%, transparent 87.5%, #fff 87.5%),linear-gradient(90deg,transparent 87.5%, #428bca 87.5%);
+  background: linear-gradient(0deg,#fff 0%, #fff 0%, transparent 0%, transparent 100%, #fff 100%),linear-gradient(90deg,transparent 87.5%, #428bca 10%);
 }
 
-.ic.ic-skip-prev{
-  background: linear-gradient(0deg,#fff 0%, #fff 12.5%, transparent 12.5%, transparent 87.5%, #fff 87.5%),linear-gradient(90deg,transparent 87.5%, #428bca 87.5%);
-  transform: rotate(180deg);
-}
+
 
 .ic.ic-skip:hover,.ic.ic-skip-prev:hover{
-  background: linear-gradient(0deg,#fff 0%, #fff 12.5%, transparent 12.5%, transparent 87.5%, #fff 87.5%),linear-gradient(90deg,transparent 87.5%, #0869ca 87.5%);
+  background: linear-gradient(0deg,#fff 0%, #fff 0%, transparent 0%, transparent 100%, #fff 87.5%),linear-gradient(90deg,transparent 87.5%, #0869ca 87.5%);
 }
 .ic.ic-skip:before,.ic.ic-skip-prev:before,.ic.ic-skip-prev:after,.ic.ic-fastforward:before,.ic.ic-fastforward:after,.ic.ic-fastforward-prev:before,.ic.ic-fastforward-prev:after{
   border-style: solid;
-  border-width: 0.375em 0 0.375em 0.4em;
+  border-width: 7px 0px 7px 7px;
   border-color: transparent transparent transparent #428bca;
-  top: 0.125em;
   left: 7px;
 }
 .ic.ic-skip:after{
@@ -233,36 +224,53 @@ section {
   left: 0.5em;
 }
 
-.ic.ic-fastforward-prev:before{
+.ic.ic-fastforward-prev:before, .ic.ic-fastforward-prev:after{
   left: 0.125em;
-  transform: rotate(180deg);
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #428bca;
 }
 .ic.ic-fastforward-prev:after{
   left: 0.5em;
-  transform: rotate(180deg);
+}
+.ic.ic-skip-prev:before{
+  border-style: solid;
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #428bca;
+  left:7px;
+  content: none;
+}
+.ic.ic-skip-prev:after{
+  border-style: solid;
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #428bca;
+  left:3px;
+}
+.ic.ic-skip-prev:hover:before{
+  border-style: solid;
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #0869ca;
+  left:7px;
+}
+.ic.ic-skip-prev:hover:after{
+  border-style: solid;
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #0869ca;
+  left:3px;
+}
+.ic.ic-skip-prev{
+  background: linear-gradient(180deg,#fff 0%, #fff 0%, transparent 0%, transparent 100%, #428bca),linear-gradient(-90deg,transparent 82%, #428bca 87.5%);
 }
 
-
-
-.ic.ic-disable:before,.ic.ic-disable:after{
-  border-color: transparent transparent transparent #bbb7b7 !important;
-  pointer-events: none !important;
-  cursor: not-allowed !important;
+.ic.ic-skip-prev:hover{
+  background: linear-gradient(180deg,#fff 0%, #fff 0%, transparent 0%, transparent 100%, #0869ca),linear-gradient(-90deg,transparent 82%, #0869ca 87.5%);
 }
-
-.ic-disable-a{
-  cursor: not-allowed !important;
-  pointer-events: none !important;
+.ic.ic-fastforward-prev:hover:before, .ic.ic-fastforward-prev:hover:after{
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #0869ca;
 }
-
-
-.ic.ic-skip.ic-disable{
-  background: linear-gradient(0deg,#fff 0%, #fff 12.5%, transparent 12.5%, transparent 87.5%, #fff 87.5%),linear-gradient(90deg,transparent 87.5%, #bbb7b7 87.5%) !important;
+.ic.ic-skip:after{
+  content: none;
 }
-
-.ic.ic-skip-prev.ic-disable{
-  background: linear-gradient(0deg,#fff 0%, #fff 12.5%, transparent 12.5%, transparent 87.5%, #fff 87.5%),linear-gradient(90deg,transparent 87.5%, #bbb7b7 87.5%) !important;
-  transform: rotate(180deg);
+.ic.ic-skip:before{
+  left: 10px;
 }
- 
-
