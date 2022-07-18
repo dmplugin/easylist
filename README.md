@@ -9,13 +9,13 @@
 EasyList is a PHP plugin which lets the developer to implement listing,pagination and filtering with less code and effort. With the help of composer the plugin can be included to the projects which are developed using any frameworks in PHP which makes EasyList versatile.
 
 ### Requirements
-- PHP version supported from 5.6 to 7.4(Testing is in progress for PHP 8)
+- PHP version supported from 5.6 to 8
 - JQuery and Bootstrap
+- PDO Extension 
 
 ### Supporting Databases
 EasyList supports the following databases
 - MySQL
-- POSTGRESQL
 - MSSQL
 - ORACLE
 
@@ -25,22 +25,22 @@ EasyList supports the following databases
 - Listing control. This will support both Postback and Ajax rendering
 
 ### Installation
-EasyList is supported in PHP versions 5.6 to 7.4.The plugin requires Bootstrap and JQuery preinstalled.
+EasyList is supported in PHP versions 5.6 to 8.The plugin requires Bootstrap and JQuery preinstalled.
 
 ##### Using Composer
 If the respective project includes composer EasyList can be added to the project by the following command.
 ```sh 
-composer require easylist/easylist2
+composer require easylist/easylist
 ```
 ##### Git
 EasyList can be downloaded or cloned from 
 ```sh
-https://github.com/pknairr/easylist2.git
+https://github.com/pknairr/easylist.git
 ```
 ##### Configuring 
 If the plugin was included to the project through composer. The file 
 ```sh
-vendor/easylist2/config/EasyListConfig.php
+vendor/easylist/config/EasyListConfig.php
 ```
 needs to be configured.
 
@@ -51,7 +51,11 @@ The line number 20 of this file contains the following code
 ```
 Change the path mentioned there to the path of the configuration file of the project. For Laravel projects this would be the path of the .env file.
 
-In the vendor/easylist2/config/EasyListConfig.php file change the path mentioned in the 20th line to the path of the path where EasyListConfig.php has been moved.
+If the plugin is added manually then add the file EasyList.php to the  desired code block.
+```sh
+require 'vendor/easylist/EasyList.php'
+```
+
 ### Usage
 There are three function for listing,pagination and rendering filtered result to the DOM.
 - Page
@@ -60,11 +64,6 @@ There are three function for listing,pagination and rendering filtered result to
 
 Page function have to be added in the controller. List and Pager function should be added to the view.
 
-Add the file EasyList.php
-```sh
-require 'vendor/easylist2/EasyList.php'
-```
-to the  desired code block.
 
 ### Page Function
 This function is called from the controller part.
@@ -83,8 +82,8 @@ There are some parameters that need to be given in the array. The params are men
 | having| Array which consists of the conditions and values for ***<HAVING>*** clause|
 | having_columns| Comma separated list of columns used in the ***HAVING*** clause.|
 |filters|Array which consists of conditions for the filters from the front end|
-|order|Comma separated order columns with **ASC/DESC** key |
-|return_data|Format of the data that has to be returned. Options are : ***HTML / JSON / OBJECT / QUERY***|
+|order|Comma separated order columns with **ASC / DESC** key |
+|return_data|Format of the data that has to be returned. Options are : ***HTML / JSON / OBJECT / QUERY*** Here Object is userd for Postback listing. Json is used for Ajax listing. Html is used for both Postback and ajax. But developer have to prepare his own table using the data returned by the function. Query is for debugging to see the backend query. If Json is used then developer have to include the css & js located in the asset folder this plugin.  |
 |view|view location if return_data is HTML. This is for rendering data through ajax when developer wants custom tables|
 |view_variables|Array variables that has to be passed to the view|
 |page|page number|
@@ -98,9 +97,9 @@ These are the options for filter
 |condition|The condition which has to be included in the ***WHERE*** clause|-|
 |form-field|The field from which the value is taken for the particular condition|-|
 |operation|This option specifies which operation binds the condition to other consitions|***AND/OR***|
-|type|The type of the form-field|***BOOLEAN/DATE/DATETIME/TIME/INTEGER/STRING/ARRAY**|
-|datetime_format_from|Date time format of th field|-|
-|datetime_format_to|The date time format to which the field value has to be converted|-|
+|type|The type of the form-field|***BOOLEAN/ DATE/ DATETIME/ TIME/ INTEGER/ STRING/ ARRAY**|
+|datetime_format_from|Date time format of th field|Provide PHP date time formate|
+|datetime_format_to|The date time format to which the field value has to be converted|Provide PHP date time formate|
 |consider_empty|If the option consider_empty is YES then the field's condition will be considered for the query created automatically otherwise it will be ruled out. By default this option's value is NO.|***YES/NO***|
 |type|Option : COMPLEX. This is to include complex query. In this case normal condition array will be added to an array this option. See the example section|-|
 
@@ -216,10 +215,10 @@ These are the options for condition
             "datetime_format_from"=>"d/m/Y", "datetime_format_to"=>"Y-m-d", 
             "consider_empty" => "NO"),
             array("type"=>"COMPLEX", "operation" => "AND", "condition" =>array(
-               array("condition" => "(cust.name = ?", 
+               array("condition" => "cust.name = ?", 
                "form-field" => "txt_name", "operation" => "AND", "type"=>"STRING",
                    "consider_empty" => "YES"),
-               array("condition" => "cust.area = ?)", "form-field" => "txt_name",
+               array("condition" => "cust.area = ?", "form-field" => "txt_name",
                "operation" => "AND", "type"=>"STRING",
                    "consider_empty" => "YES"),
             )
@@ -347,6 +346,7 @@ Listing::List(array(
     "form_id"       => "user_filter_form",
     "target_div_id" => "user_list_div",
     "button_id"     => "user_list",
+    "data"	     => $page_data,
     "column"        => array(
                             array("head" => "Code", "column" => "a_code",
                             "width" => '30%',"sort" => "a_code",
@@ -373,6 +373,7 @@ Listing::List(array(
     "target_div_id" => "user_list_div",
     "button_id"     => "user_list",
     "autolist"       => true,
+    "data"	     => $page_data,
     "column"        => array(
                             array("head" => "Code", "column" => "a_code",
                             "width" => '30%',"sort" => "a_code",
@@ -396,6 +397,7 @@ Listing::List(array(
     "form_id"       => "user_filter_form",
     "target_div_id" => "user_list_div",
     "button_id"     => "user_list",
+    "data"	    => $page_data,
     "column"        => array(
                             array("head" => "Code", "column" => "a_code",
                             "width" => '30%',"sort" => "a_code",
