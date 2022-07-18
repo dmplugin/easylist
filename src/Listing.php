@@ -69,10 +69,10 @@ class Listing
         $subCondition       = "";
         $methodArray        = (!empty($_POST)) ? $_POST : $_GET;
         
-        $return_data        = isset($options["return_data"]) ? $options["return_data"] : "JSON";
+        $return_data        = isset($options["return_data"]) ? strtoupper(trim($options["return_data"])) : "JSON";
         $page_size          = isset($methodArray['page_size']) ? $methodArray['page_size'] : (isset($options["page_size"]) ? $options["page_size"] : 25);
         $page               = isset($methodArray['page']) ? $methodArray['page'] : (isset($options["page"]) ? $options["page"] : 1);
-        $total_records      = isset($methodArray['total_records']) ? $methodArray['total_records'] : (isset($options["total_records"]) ? $options["page"] : 0);
+        $total_records      = isset($methodArray['total_records']) ? $methodArray['total_records'] : 0;
         $pagination         = isset($options["pagination"]) ? strtoupper($options["pagination"]) : 'YES';
         $having_columns     = isset($options["having_columns"]) ? "," . trim($options["having_columns"],",") : '';
         
