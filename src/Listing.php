@@ -70,10 +70,10 @@ class Listing
         $methodArray        = (!empty($_POST)) ? $_POST : $_GET;
         
         $return_data        = isset($options["return_data"]) ? $options["return_data"] : "JSON";
-        $page_size          = isset($methodArray['page_size']) ? $methodArray['page_size'] : (!empty($options["page_size"]) && $options["page_size"] != 0  ? $options["page_size"] : 25);
+        $page_size          = isset($methodArray['page_size']) ? $methodArray['page_size'] : (isset($options["page_size"]) ? $options["page_size"] : 25);
         $page               = isset($methodArray['page']) ? $methodArray['page'] : (isset($options["page"]) ? $options["page"] : 1);
         $total_records      = isset($methodArray['total_records']) ? $methodArray['total_records'] : (isset($options["total_records"]) ? $options["page"] : 0);
-        $pagination         = isset($options["pagination"]) ? $options["pagination"] : 'YES';
+        $pagination         = isset($options["pagination"]) ? strtoupper($options["pagination"]) : 'YES';
         $having_columns     = isset($options["having_columns"]) ? "," . trim($options["having_columns"],",") : '';
         
         $order              = isset($options["order"]) ? $options["order"] : "";
@@ -339,8 +339,15 @@ class Listing
             $complextype = isset($eachfilter['type']) ? trim(strtoupper($eachfilter['type'])) : "";
             
             if($complextype == "COMPLEX"){
+                $subfilterComplex = "";
                 foreach($eachfilter['condition'] AS $subEachFilter){
-                    $subfilter .= $listFilter->filter($subEachFilter, $methodArray);
+                    $subfilterComplex .= $listFilter->filter($subEachFilter, $methodArray);
+                }
+                
+                if($subfilterComplex != ""){
+                    $subfilterComplex = trim($subfilterComplex, 'AND ');
+                    $subfilterComplex = trim($subfilterComplex, 'OR ');
+                    $subfilter .= "(" . $subfilterComplex . ")";
                 }
             } else {
                 $subfilter = $listFilter->filter($eachfilter, $methodArray);

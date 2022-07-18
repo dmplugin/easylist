@@ -60,6 +60,7 @@ class ListFilter
                 
                 if(!is_array($postVariable)){
                     $postVariable = trim($postVariable);
+                    $postVariable = str_replace("'", "''", $postVariable);
                 }
 
                 switch($type){
@@ -78,7 +79,7 @@ class ListFilter
                             $new_date = $dateObj->format($dateFormatTo);
                             $subfilter .= "'{$new_date}'";
                         } else {
-                            throw new EasyListException("Date not matching with the 'datetime_format_from'. ");
+                            //throw new EasyListException("Date not matching with the 'datetime_format_from'. ");
                             $subfilter .= "''"; 
                         }
                         break;
@@ -92,6 +93,7 @@ class ListFilter
                         break;
                     case 'ARRAY' :
                         if(is_array($postVariable)){
+                            $postVariable = array_map(function($value) { return str_replace("'", "''", $value); }, $postVariable); 
                             $subValues = "'" . implode("','", $postVariable) . "'";
                             $subfilter .= $subValues;
                         } else {

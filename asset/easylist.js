@@ -225,6 +225,7 @@ function displayPaginationHTML(json_data){
 						<a href="javascript:void(0)" class="last-page `+disableNextAClass+`" title="Last" data-page="`+total_pages+`">
 							<span class="ic ic-skip  `+disableNextClass+`"></span>
 						</a>
+						&nbsp;
 						<select class="page-limit">
 							<option value="10" `+(page_size == 10 ? "selected" : "")+`>10</option>
 							<option value="25" `+(page_size == 25 ? "selected" : "")+`>25</option>
@@ -233,17 +234,17 @@ function displayPaginationHTML(json_data){
 							<option value="250" `+(page_size == 250 ? "selected" : "")+`>250</option>
 						</select>
 					</div>`;
-		if(header.pager == 'TOP'){
+		if((header.pager).toUpperCase() == 'BOTH'){
 			$('.custom-pagination').remove();
 			$('#' + header.target_div_id).prepend(html);
-		}else if(header.pager == 'BOTTOM'){
+			$('#' + header.target_div_id).append(html);
+		}else if((header.pager).toUpperCase() == 'BOTTOM'){
 			$('.custom-pagination').remove();
 			$('#' + header.target_div_id).append(html);
 		}
 		else{
 			$('.custom-pagination').remove();
 			$('#' + header.target_div_id).prepend(html);
-			$('#' + header.target_div_id).append(html);
 		}
 	}
 }
