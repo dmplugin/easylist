@@ -162,7 +162,7 @@ section {
   font-style: normal;
   height: 14px;
   width: 1em;
-  margin-top: 2px;
+  /* margin-top: 2px; */
   margin-bottom: 2px;
   mix-blend-mode: multiply;
   cursor: pointer;
@@ -274,3 +274,39 @@ section {
 .ic.ic-skip:before{
   left: 10px;
 }
+
+.ic.ic-skip-prev.ic-disable:before,
+.ic.ic-skip-prev.ic-disable:after,
+.ic.ic-fastforward-prev.ic-disable:before,
+.ic.ic-fastforward-prev.ic-disable:after{
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent #bbbaba;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.ic.ic-skip.ic-disable:before,
+.ic.ic-skip.ic-disable:after,
+.ic.ic-fastforward.ic-disable:before,
+.ic.ic-fastforward.ic-disable:after{
+  border-color: transparent transparent transparent #bbbaba;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.ic-disable-a{
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+.ic.ic-skip.ic-disable{
+  background: linear-gradient(0deg,#fff 0%, #fff 0%, transparent 0%, transparent 100%, #fff 100%),linear-gradient(90deg,transparent 87.5%, #bbbaba 10%);
+}
+
+.ic.ic-skip-prev.ic-disable{
+  background: linear-gradient(180deg,#fff 0%, #fff 0%, transparent 0%, transparent 100%, #bbbaba),linear-gradient(-90deg,transparent 82%, #bbbaba 87.5%)
+
+}
+
+
+
