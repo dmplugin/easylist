@@ -226,6 +226,7 @@ function displayPaginationHTML(json_data){
 							<span class="ic ic-skip  `+disableNextClass+`"></span>
 						</a>
 						&nbsp;
+						&nbsp;
 						<select class="page-limit">
 							<option value="10" `+(page_size == 10 ? "selected" : "")+`>10</option>
 							<option value="25" `+(page_size == 25 ? "selected" : "")+`>25</option>

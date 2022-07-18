@@ -54,7 +54,7 @@ class ListTable
     				</a>
     				<a href='javascript:void(0)' class='last-page {$disableNextAClass}' title='Last' data-page='{$page->last_page}' onclick='pagination{$random}({$page->last_page},this,{$page->page_size},{$page->total_records})'>
       					<span class='ic ic-skip {$disableNextClass}'></span>
-    				</a>&nbsp;
+    				</a>&nbsp;&nbsp;
 					<select class='page-limit' onchange=paginationBySize{$random}({$page->page},this,{$page->total_records})>{$sizeOptions}</select>
   				</div>";
         
