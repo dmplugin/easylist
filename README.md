@@ -35,7 +35,7 @@ composer require easylist/easylist
 ##### Git
 EasyList can be downloaded or cloned from 
 ```sh
-https://github.com/pknairr/easylist.git
+https://github.com/dmplugin/easylist.git
 ```
 ##### Configuring 
 If the plugin was included to the project through composer. The file 
