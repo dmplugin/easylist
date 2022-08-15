@@ -336,7 +336,7 @@ Options of column
 |sort|Which column should be considered for sorting|
 |class|Mention the CSS class|             
 |date_format|php date format. This can be used for formating the date if return_data is Object.|
-|boolean_format|Yes/No or True/False|
+|boolean_format|YesNo or TrueFalse|
 |js_date_format_from|This is to specify the source date formate for ajax listing.|
 |js_date_format_to|This is the date formate for ajax listing. Developer can use yy/mm/dd/h/i/s/A for formating date. Eg. yy-mm-dd h:i:s A|
              
