@@ -9,6 +9,7 @@ use PDO;
 use PDOException;
 use DateTime;
 use EasyList\Exceptions\EasyListException;
+use Throwable;
 
 class ListTable
 {
@@ -124,6 +125,23 @@ class ListTable
                         var sortfield = currentelement.dataset.sort;
                         var sortType = currentelement.dataset.sort_type;
 
+                        if(sortType == ''){
+                            sortType = 'asc';
+                            class_name = 'sort-by-asc';
+                            title = 'Ascending';
+                        }else if(sortType == 'asc'){
+                            sortType = 'desc';
+                            class_name = 'sort-by-desc';
+                            title = 'Descending';
+                        }else{
+                            sortType = 'asc';
+                            class_name = 'sort-by-asc';
+                            title = 'Ascending';
+                        }
+                        element = currentelement.querySelector('i');
+                        element.setAttribute('class', class_name);
+                        element.setAttribute('title', title);
+
                         updateHiddenAttribute{$random}('sort', sortfield, form_id);
                         updateHiddenAttribute{$random}('sort_type', sortType, form_id);
                         updateHiddenAttribute{$random}('page_size', '{$pageSize}', form_id);
@@ -133,20 +151,23 @@ class ListTable
 
             $html .= "window.onload = function pageLoad() {
                         form_id = '{$formid}';
+                        class_name = '';
                         var sortfield = document.getElementById('sort').value;
                         var sortType = document.getElementById('sort_type').value;
                         element = document.querySelector('[data-sort=\"'+sortfield+'\"]');
-                        element.setAttribute('data-sort_type', sortType);
-                        if(sortType == 'asc'){
-                            class_name = 'sort-by-asc';
-                            title = 'Ascending';
-                        }else if(sortType == 'desc'){
-                            class_name = 'sort-by-desc';
-                            title = 'Descending';
+                        if(element){
+                            element.setAttribute('data-sort_type', sortType);
+                            if(sortType == 'asc'){
+                                class_name = 'sort-by-asc';
+                                title = 'Ascending';
+                            }else if(sortType == 'desc'){
+                                class_name = 'sort-by-desc';
+                                title = 'Descending';
+                            }
+                            item = element.querySelector('i');
+                            item.setAttribute('class', class_name);
+                            item.setAttribute('title', title);
                         }
-                        item = element.querySelector('i');
-                        item.setAttribute('class', class_name);
-                        item.setAttribute('title', title);
                     }";                    
             $html .= "</script>";
 
@@ -183,11 +204,13 @@ class ListTable
                                                     onclick="applySort'.$random.'(this)"
                                                     data-sort="'.$sortValue.'" 
                                                     data-sort_type="'.((strtolower($sortType) != "asc") ? 'asc' : 'desc').'" 
-                                                    title="Sort">'.$dataHeader['head'].'</a>';
+                                                    title="Sort">'.$dataHeader['head'];
                     if($sortTdbit && strtolower($sortType) == "asc"){
-                        $tableHtml                          .= '<i class="sort-by-asc" title="Ascending"></i>';
+                        $tableHtml                          .= '<i class="sort-by-asc" title="Ascending"></i></a>';
                     }else if($sortTdbit && strtolower($sortType) == "desc"){
-                        $tableHtml                          .= '<i class="sort-by-desc" title="Descending"></i>';
+                        $tableHtml                          .= '<i class="sort-by-desc" title="Descending"></i></a>';
+                    }else{
+                        $tableHtml .= '<i class="" title=""></i></a>';
                     }
                 }else{
                         $tableHtml              .= '<th class="'.((array_key_exists('class', $dataHeader)) ? $dataHeader['class'] : '').'" width="'.((array_key_exists('width', $dataHeader)) ? $dataHeader['width'] : '').'" >'.$dataHeader['head'];
